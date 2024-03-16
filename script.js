@@ -40,7 +40,7 @@ function createMarkerWithPopup(latLng, schoolId) {
         })
         .catch(error => {
             console.error('Error fetching popup content:', error);
-            popup.setContent('Failed to load popup content');
+            popup.setContent('Пока что нет контента');
         });
 
     var isHovered = false;
@@ -180,9 +180,21 @@ function closeVideo() {
     video.pause();
     video.currentTime = 0;
 }
+// map.on('click', function(e) {
+//     alert("["+ e.latlng.lat + ", " + e.latlng.lng+"]")
+// });
 
 
 /*Создание маркеров по их кординатам и айди школы*/
-var marker1 = createMarkerWithPopup([59.920893, 30.464058], "11");
-var marker2 = createMarkerWithPopup([59.93093, 30.464058], "12");
+$.getJSON('schools.json', function(data) {
+    
+    data.schools.forEach(function(school) {
+        var latLng = L.latLng(school.latLng[0], school.latLng[1]); // Создание объекта L.latLng из массива координат
+        createMarkerWithPopup(latLng, school.id); // Передача координат и id школы методу createMarkerWithPopup
+    });
+}).fail(function(jqXHR, textStatus, errorThrown) {
+    // Обработка ошибок
+    console.error('Ошибка при загрузке данных o школах:', errorThrown);
+});
+
 
