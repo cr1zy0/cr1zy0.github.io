@@ -13,11 +13,22 @@ corner2 = L.latLng(59.864815, 30.516586),
 bounds = L.latLngBounds(corner1, corner2);
 map.setMaxBounds(bounds)
 
+var activeIcon = L.icon({
+    iconUrl: "media/icons/marker_active.png",
+    popupAnchor:  [0, -40]
+});
+var inactiveIcon = L.icon({
+    iconUrl: "media/icons/marker_unactive.png",
+    popupAnchor:  [0, -40]
+});
+
+
 
 /*Поведение маркера и попапа*/
 function createMarkerWithPopup(latLng, schoolId) {
     var marker = L.marker(latLng).addTo(map);
-    
+
+    checkAndSetMarkerIcon(schoolId, marker, activeIcon, inactiveIcon);
     // Создаем попап
     var popup = L.popup({ closeButton: false });
     
@@ -67,6 +78,7 @@ function createMarkerWithPopup(latLng, schoolId) {
     marker.on("click", function () {
         playVideoById(schoolId);
     });
+
 
     return marker;
 }
@@ -122,12 +134,34 @@ function playVideoById(schoolId) {
             overlay.style.display = 'block'
 
             // Воспроизводим видео
-            video.play();
+            
         })
         .catch(error => {
             console.error('Error checking video existence:', error);
         });
         
+}
+function videoExistanceById(id) {
+    var videoPath = 'media/school_' + id + '.mp4';
+    return fetch(videoPath)
+        .then(response => {
+            if (!response.ok) return false;
+            else return true;
+            
+        });
+}
+async function checkAndSetMarkerIcon(schoolId, marker, activeIcon, inactiveIcon) {
+    try {
+        const videoExists = await videoExistanceById(schoolId);
+        if (videoExists) {
+            marker.setIcon(activeIcon);
+        } else {
+            marker.setIcon(inactiveIcon);
+        }
+    } catch (error) {
+        console.error('Error occurred while checking video existence:', error);
+        
+    }
 }
 //закрытие видео
 function closeVideo() {
