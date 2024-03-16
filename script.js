@@ -93,10 +93,7 @@ function playVideoById(schoolId) {
     
     var videoContainer = document.getElementById('video-container');
     var overlay = document.getElementById('overlay');
-    map.dragging.disable();
-    map.touchZoom.disable();
-    map.doubleClickZoom.disable();
-    map.scrollWheelZoom.disable();
+    
 
     
     // Формируем путь к видео на основе айди школы
@@ -107,8 +104,13 @@ function playVideoById(schoolId) {
         .then(response => {
             if (!response.ok) {
                 console.error('Video not found:', videoPath);
+
                 return;
             }
+            map.dragging.disable();
+            map.touchZoom.disable();
+            map.doubleClickZoom.disable();
+            map.scrollWheelZoom.disable();
 
             // Устанавливаем путь к видео
             var video = document.querySelector('video');
