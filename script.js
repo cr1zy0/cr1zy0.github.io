@@ -12,7 +12,7 @@ var corner1 = L.latLng(59.937816, 30.377197),
 corner2 = L.latLng(59.864815, 30.516586),
 bounds = L.latLngBounds(corner1, corner2);
 map.setMaxBounds(bounds)
-
+/*Создание своих иконок*/
 var activeIcon = L.icon({
     iconUrl: "media/icons/marker_active.png",
     popupAnchor:  [0, -40]
@@ -21,6 +21,7 @@ var inactiveIcon = L.icon({
     iconUrl: "media/icons/marker_unactive.png",
     popupAnchor:  [0, -40]
 });
+
 
 
 
@@ -47,7 +48,6 @@ function createMarkerWithPopup(latLng, schoolId) {
 
     marker.bindPopup(popup);
 
-    var timer; // Таймер для задержки закрытия попапа при уходе с маркера
 
     marker.on("mouseover", function () {
         marker.openPopup();
@@ -141,6 +141,26 @@ function playVideoById(schoolId) {
         });
         
 }
+
+
+//закрытие видео
+function closeVideo() {
+    var videoContainer = document.getElementById('video-container');
+    var overlay = document.getElementById('overlay');
+    map.dragging.enable();
+    map.touchZoom.enable();
+    map.doubleClickZoom.enable();
+    map.scrollWheelZoom.enable();
+    
+    videoContainer.style.display = 'none';
+    overlay.style.display = 'none'
+
+    // Остановить видео при закрытии
+    var video = document.querySelector('video');
+    video.pause();
+    video.currentTime = 0;
+}
+/*Проверка существования видео по айди*/
 function videoExistanceById(id) {
     var videoPath = 'media/school_' + id + '.mp4';
     return fetch(videoPath)
@@ -162,23 +182,6 @@ async function checkAndSetMarkerIcon(schoolId, marker, activeIcon, inactiveIcon)
         console.error('Error occurred while checking video existence:', error);
         
     }
-}
-//закрытие видео
-function closeVideo() {
-    var videoContainer = document.getElementById('video-container');
-    var overlay = document.getElementById('overlay');
-    map.dragging.enable();
-    map.touchZoom.enable();
-    map.doubleClickZoom.enable();
-    map.scrollWheelZoom.enable();
-    
-    videoContainer.style.display = 'none';
-    overlay.style.display = 'none'
-
-    // Остановить видео при закрытии
-    var video = document.querySelector('video');
-    video.pause();
-    video.currentTime = 0;
 }
 // map.on('click', function(e) {
 //     alert("["+ e.latlng.lat + ", " + e.latlng.lng+"]")
