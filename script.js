@@ -8,8 +8,8 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 /*Создание границ карты*/
 
-var corner1 = L.latLng(59.937816, 30.377197),   
-corner2 = L.latLng(59.864815, 30.516586),
+var corner1 = L.latLng(59.957816, 30.377197),   
+corner2 = L.latLng(59.764815, 30.516586),
 bounds = L.latLngBounds(corner1, corner2);
 map.setMaxBounds(bounds)
 /*Создание своих иконок*/
@@ -183,9 +183,9 @@ async function checkAndSetMarkerIcon(schoolId, marker, activeIcon, inactiveIcon)
         
     }
 }
-// map.on('click', function(e) {
-//     alert("["+ e.latlng.lat + ", " + e.latlng.lng+"]")
-// });
+ map.on('click', function(e) {
+   alert("["+ e.latlng.lat + ", " + e.latlng.lng+"]")
+ });
 
 
 /*Создание маркеров по их кординатам и айди школы*/
