@@ -183,9 +183,7 @@ async function checkAndSetMarkerIcon(schoolId, marker, activeIcon, inactiveIcon)
         
     }
 }
- map.on('click', function(e) {
-   alert("["+ e.latlng.lat + ", " + e.latlng.lng+"]")
- });
+
 
 
 /*Создание маркеров по их кординатам и айди школы*/
